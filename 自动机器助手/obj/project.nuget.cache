@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "h6h3Vnoo8L8=",
+  "dgSpecHash": "d161rvuJyqg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\MniShark\\Downloads\\新建文件夹\\AutoSurroundMod.csproj",
+  "projectFilePath": "C:\\Users\\MniShark\\Downloads\\自动机器助手\\AutoSurroundMod.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MniShark\\.nuget\\packages\\pathoschild.stardew.modbuildconfig\\4.4.0\\pathoschild.stardew.modbuildconfig.4.4.0.nupkg.sha512"
   ],

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\MniShark\\Downloads\\新建文件夹\\AutoSurroundMod.csproj": {}
+    "C:\\Users\\MniShark\\Downloads\\自动机器助手\\AutoSurroundMod.csproj": {}
   },
   "projects": {
-    "C:\\Users\\MniShark\\Downloads\\新建文件夹\\AutoSurroundMod.csproj": {
+    "C:\\Users\\MniShark\\Downloads\\自动机器助手\\AutoSurroundMod.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\MniShark\\Downloads\\新建文件夹\\AutoSurroundMod.csproj",
+        "projectUniqueName": "C:\\Users\\MniShark\\Downloads\\自动机器助手\\AutoSurroundMod.csproj",
         "projectName": "AutoSurroundMod",
-        "projectPath": "C:\\Users\\MniShark\\Downloads\\新建文件夹\\AutoSurroundMod.csproj",
+        "projectPath": "C:\\Users\\MniShark\\Downloads\\自动机器助手\\AutoSurroundMod.csproj",
         "packagesPath": "C:\\Users\\MniShark\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\MniShark\\Downloads\\新建文件夹\\obj\\",
+        "outputPath": "C:\\Users\\MniShark\\Downloads\\自动机器助手\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\MniShark\\AppData\\Roaming\\NuGet\\NuGet.Config"

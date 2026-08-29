@@ -6,3 +6,11 @@ C:\Users\MniShark\Downloads\新建文件夹\obj\Release\net6.0\AutoSurroundMod.c
 C:\Users\MniShark\Downloads\新建文件夹\bin\Release\net6.0\AutoSurroundMod.deps.json
 C:\Users\MniShark\Downloads\新建文件夹\bin\Release\net6.0\AutoSurroundMod.dll
 C:\Users\MniShark\Downloads\新建文件夹\obj\Release\net6.0\AutoSurroundMod.dll
+C:\Users\MniShark\Downloads\自动机器助手\bin\Release\net6.0\AutoSurroundMod.deps.json
+C:\Users\MniShark\Downloads\自动机器助手\bin\Release\net6.0\AutoSurroundMod.dll
+C:\Users\MniShark\Downloads\自动机器助手\obj\Release\net6.0\AutoSurroundMod.csproj.AssemblyReference.cache
+C:\Users\MniShark\Downloads\自动机器助手\obj\Release\net6.0\AutoSurroundMod.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MniShark\Downloads\自动机器助手\obj\Release\net6.0\AutoSurroundMod.AssemblyInfoInputs.cache
+C:\Users\MniShark\Downloads\自动机器助手\obj\Release\net6.0\AutoSurroundMod.AssemblyInfo.cs
+C:\Users\MniShark\Downloads\自动机器助手\obj\Release\net6.0\AutoSurroundMod.csproj.CoreCompileInputs.cache
+C:\Users\MniShark\Downloads\自动机器助手\obj\Release\net6.0\AutoSurroundMod.dll

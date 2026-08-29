@@ -1,4 +1,5 @@
 using System;
+using GenericModConfigMenu;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -25,6 +26,10 @@ namespace AutoSurroundMod
         public override void Entry(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
+            helper.WriteConfig(Config);
+			
+			Monitor.Log(" 已加载", LogLevel.Info);
+
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             helper.Events.Input.ButtonReleased += OnButtonReleased;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
@@ -87,21 +92,18 @@ namespace AutoSurroundMod
 
         private void ProcessTile(GameLocation location, Vector2 tile, Farmer player)
         {
-            // 机器
             if (location.objects.TryGetValue(tile, out StardewValley.Object obj))
             {
                 if (obj.bigCraftable.Value)
                 {
                     if (Config.EnableMachineHarvest && obj.checkForAction(player, false))
                         return;
-
                     if (Config.EnableMachineFill && player.CurrentItem != null)
                         obj.performObjectDropInAction(player.CurrentItem, false, player);
                 }
                 return;
             }
 
-            // 施肥
             if (Config.EnableFertilize)
             {
                 if (location.terrainFeatures.TryGetValue(tile, out TerrainFeature tf) && tf is HoeDirt dirt)
@@ -127,115 +129,71 @@ namespace AutoSurroundMod
             return id == "(O)465" || id == "(O)466" || id == "(O)919" || id == "(O)920" || id == "(O)921";
         }
 
+        private string GetText(string key, string fallback)
+        {
+            try { return Helper.Translation.Get(key); }
+            catch { return fallback; }
+        }
+
         private void TryRegisterWithGMCM()
         {
             try
             {
-                dynamic gmcm = Helper.ModRegistry.GetApi("spacechase0.GenericModConfigMenu");
-                if (gmcm == null)
-                {
-                    Monitor.Log("GMCM not found.", LogLevel.Info);
-                    return;
-                }
+                IGenericModConfigMenuApi gmcm = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+                if (gmcm == null) return;
 
                 gmcm.Register(
-                    ModManifest,
-                    (Action)(() => Config = new ModConfig()),
-                    (Action)(() => Helper.WriteConfig(Config)),
-                    false
+                    mod: ModManifest,
+                    reset: () => Config = new ModConfig(),
+                    save: () => Helper.WriteConfig(Config)
                 );
 
-                // 每个选项独立 try-catch，避免一个失败导致全部中断
-                // 1. 触发按键
-                try
-                {
-                    gmcm.AddKeybind(
-                        mod: ModManifest,
-                        name: (Func<string>)(() => Helper.Translation.Get("Config.TriggerKey.Name")),
-                        tooltip: (Func<string>)(() => Helper.Translation.Get("Config.TriggerKey.Desc")),
-                        getValue: (Func<SButton>)(() => Config.TriggerKey),
-                        setValue: (Action<SButton>)(value => Config.TriggerKey = value)
-                    );
-                    Monitor.Log("Added TriggerKey option.", LogLevel.Info);
-                }
-                catch (Exception ex)
-                {
-                    Monitor.Log($"Failed to add TriggerKey: {ex.Message}", LogLevel.Warn);
-                }
+                gmcm.AddKeybind(
+                    mod: ModManifest,
+                    name: () => GetText("Config.TriggerKey.Name", "Trigger Key"),
+                    tooltip: () => GetText("Config.TriggerKey.Desc", "Hold to repeat actions."),
+                    getValue: () => Config.TriggerKey,
+                    setValue: value => Config.TriggerKey = value
+                );
 
-                // 2. 间隔时间
-                try
-                {
-                    gmcm.AddNumberOption(
-                        mod: ModManifest,
-                        getValue: (Func<int>)(() => Config.IntervalMs),
-                        setValue: (Action<int>)(value => Config.IntervalMs = value),
-                        name: (Func<string>)(() => Helper.Translation.Get("Config.IntervalMs.Name")),
-                        tooltip: (Func<string>)(() => Helper.Translation.Get("Config.IntervalMs.Desc"))
-                    );
-                    Monitor.Log("Added IntervalMs option.", LogLevel.Info);
-                }
-                catch (Exception ex)
-                {
-                    Monitor.Log($"Failed to add IntervalMs: {ex.Message}", LogLevel.Warn);
-                }
+                gmcm.AddNumberOption(
+                    mod: ModManifest,
+                    name: () => GetText("Config.IntervalMs.Name", "Interval (ms)"),
+                    tooltip: () => GetText("Config.IntervalMs.Desc", "Time between actions."),
+                    getValue: () => Config.IntervalMs,
+                    setValue: value => Config.IntervalMs = value,
+                    min: 50,
+                    max: 1000,
+                    interval: 10
+                );
 
-                // 3. 启用机器收获
-                try
-                {
-                    gmcm.AddBoolOption(
-                        mod: ModManifest,
-                        name: (Func<string>)(() => Helper.Translation.Get("Config.EnableMachineHarvest.Name")),
-                        tooltip: (Func<string>)(() => Helper.Translation.Get("Config.EnableMachineHarvest.Desc")),
-                        getValue: (Func<bool>)(() => Config.EnableMachineHarvest),
-                        setValue: (Action<bool>)(value => Config.EnableMachineHarvest = value)
-                    );
-                    Monitor.Log("Added EnableMachineHarvest option.", LogLevel.Info);
-                }
-                catch (Exception ex)
-                {
-                    Monitor.Log($"Failed to add EnableMachineHarvest: {ex.Message}", LogLevel.Warn);
-                }
+                gmcm.AddBoolOption(
+                    mod: ModManifest,
+                    name: () => GetText("Config.EnableMachineHarvest.Name", "Harvest Machines"),
+                    tooltip: () => GetText("Config.EnableMachineHarvest.Desc", "Auto harvest finished machines."),
+                    getValue: () => Config.EnableMachineHarvest,
+                    setValue: value => Config.EnableMachineHarvest = value
+                );
 
-                // 4. 启用机器填充
-                try
-                {
-                    gmcm.AddBoolOption(
-                        mod: ModManifest,
-                        name: (Func<string>)(() => Helper.Translation.Get("Config.EnableMachineFill.Name")),
-                        tooltip: (Func<string>)(() => Helper.Translation.Get("Config.EnableMachineFill.Desc")),
-                        getValue: (Func<bool>)(() => Config.EnableMachineFill),
-                        setValue: (Action<bool>)(value => Config.EnableMachineFill = value)
-                    );
-                    Monitor.Log("Added EnableMachineFill option.", LogLevel.Info);
-                }
-                catch (Exception ex)
-                {
-                    Monitor.Log($"Failed to add EnableMachineFill: {ex.Message}", LogLevel.Warn);
-                }
+                gmcm.AddBoolOption(
+                    mod: ModManifest,
+                    name: () => GetText("Config.EnableMachineFill.Name", "Fill Machines"),
+                    tooltip: () => GetText("Config.EnableMachineFill.Desc", "Auto fill machines with items."),
+                    getValue: () => Config.EnableMachineFill,
+                    setValue: value => Config.EnableMachineFill = value
+                );
 
-                // 5. 启用施肥
-                try
-                {
-                    gmcm.AddBoolOption(
-                        mod: ModManifest,
-                        name: (Func<string>)(() => Helper.Translation.Get("Config.EnableFertilize.Name")),
-                        tooltip: (Func<string>)(() => Helper.Translation.Get("Config.EnableFertilize.Desc")),
-                        getValue: (Func<bool>)(() => Config.EnableFertilize),
-                        setValue: (Action<bool>)(value => Config.EnableFertilize = value)
-                    );
-                    Monitor.Log("Added EnableFertilize option.", LogLevel.Info);
-                }
-                catch (Exception ex)
-                {
-                    Monitor.Log($"Failed to add EnableFertilize: {ex.Message}", LogLevel.Warn);
-                }
-
-                Monitor.Log("GMCM registration process completed.", LogLevel.Info);
+                gmcm.AddBoolOption(
+                    mod: ModManifest,
+                    name: () => GetText("Config.EnableFertilize.Name", "Fertilize Soil"),
+                    tooltip: () => GetText("Config.EnableFertilize.Desc", "Auto fertilize unfertilized soil."),
+                    getValue: () => Config.EnableFertilize,
+                    setValue: value => Config.EnableFertilize = value
+                );
             }
             catch (Exception ex)
             {
-                Monitor.Log($"GMCM registration failed completely: {ex.Message}", LogLevel.Warn);
+                Monitor.Log($"GMCM registration failed: {ex.Message}", LogLevel.Warn);
             }
         }
     }
