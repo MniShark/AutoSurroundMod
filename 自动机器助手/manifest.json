@@ -1,0 +1,10 @@
+{
+  "Name": "自动机器助手(Auto Surround Action)",
+  "Author": "MniShark",
+  "Version": "1.0.0",
+  "Description": "按住鼠标滚轮，自动对周围3x3内的机器收获/添加材料、对耕地施肥。",
+  "UniqueID": "MniShark.AutoSurroundAction",
+  "EntryDll": "AutoSurroundMod.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": []
+}

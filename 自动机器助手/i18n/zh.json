@@ -1,0 +1,19 @@
+{
+  "ModName": "自动机器助手",
+  "ModDescription": "按住按键自动对周围3x3的机器操作和耕地施肥。",
+
+  "Config.TriggerKey.Name": "触发按键",
+  "Config.TriggerKey.Desc": "按住此键触发自动操作。",
+
+  "Config.IntervalMs.Name": "间隔时间 (毫秒)",
+  "Config.IntervalMs.Desc": "每次操作之间的延迟（毫秒）。",
+
+  "Config.EnableMachineHarvest.Name": "启用机器收获",
+  "Config.EnableMachineHarvest.Desc": "是否自动收获已完成的机器。",
+
+  "Config.EnableMachineFill.Name": "启用机器填充",
+  "Config.EnableMachineFill.Desc": "是否自动将手中匹配的材料放入空机器。",
+
+  "Config.EnableFertilize.Name": "启用施肥",
+  "Config.EnableFertilize.Desc": "是否在手握肥料时自动对未施肥的耕地施肥。"
+}

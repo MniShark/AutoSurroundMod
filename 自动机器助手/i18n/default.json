@@ -1,0 +1,19 @@
+{
+  "ModName": "Auto Surround Action",
+  "ModDescription": "Hold a key to auto-fill/harvest machines and fertilize crops around you.",
+
+  "Config.TriggerKey.Name": "Trigger Key",
+  "Config.TriggerKey.Desc": "The key to hold for auto-action.",
+
+  "Config.IntervalMs.Name": "Interval (ms)",
+  "Config.IntervalMs.Desc": "Delay between each action (in milliseconds).",
+
+  "Config.EnableMachineHarvest.Name": "Enable Machine Harvest",
+  "Config.EnableMachineHarvest.Desc": "Whether to harvest finished machines automatically.",
+
+  "Config.EnableMachineFill.Name": "Enable Machine Fill",
+  "Config.EnableMachineFill.Desc": "Whether to fill empty machines with matching items from your hand.",
+
+  "Config.EnableFertilize.Name": "Enable Fertilize",
+  "Config.EnableFertilize.Desc": "Whether to fertilize unfertilized soil if you are holding fertilizer."
+}
